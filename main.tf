@@ -66,7 +66,7 @@ resource "nsxt_policy_group" "consumes-all-ssh" {
   display_name = "consumes.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = []
+      member_paths = [ for key, value in var.provider_groups.provides_all_ssh: value.path ]
       # for key, value in var.lb_groups: (data.nsxt_policy_group.lb_groups[key]).path
       #for p in var.provider_groups.provides_all_https: p.path
     }
@@ -78,7 +78,7 @@ resource "nsxt_policy_group" "provides-all-https" {
   display_name = "provides.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [ ]
+      member_paths = [ for key, value in var.provider_groups.provides_all_https: value.path ]
     }
   }
 }
@@ -88,7 +88,7 @@ resource "nsxt_policy_group" "consumes-all-https" {
   display_name = "consumes.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = []
+      member_paths = [for key, value in var.provider_groups.consumes_all_https: value.path]
     }
   }
 }
@@ -98,7 +98,7 @@ resource "nsxt_policy_group" "provides-lb-https" {
   display_name = "provides.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [ ]
+      member_paths = [for key, value in var.provider_groups.provides_lb_ssh: value.path ]
     }
   }
 }
@@ -108,7 +108,7 @@ resource "nsxt_policy_group" "consumes-lb-https" {
   display_name = "consumes.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = []
+      member_paths = [for key, value in var.provider_groups.conumes_lb_ssh: value.path]
     }
   }
 }
@@ -118,7 +118,7 @@ resource "nsxt_policy_group" "provides-all-icc" {
   display_name = "provides.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [ ]
+      member_paths = [for key, value in var.provider_groups.provides_all_icc: value.path ]
     }
   }
 }
@@ -128,7 +128,7 @@ resource "nsxt_policy_group" "consumes-all-icc" {
   display_name = "consumes.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [ ]
+      member_paths = [for key, value in var.provider_groups.consumes_all_icc: value.path ]
     }
   }
 }
