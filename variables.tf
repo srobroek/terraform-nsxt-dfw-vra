@@ -1,0 +1,2 @@
+variable product {}
+variable groups {}
