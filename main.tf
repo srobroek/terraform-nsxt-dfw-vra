@@ -47,9 +47,6 @@ data "nsxt_policy_service" "service" {
   display_name = each.value
 }
 
-data "nsxt_policy_service" "services" {
-  display_name = "ssh"
-}
 
 
 ## create provider groups
@@ -69,7 +66,7 @@ resource "nsxt_policy_group" "consumes-all-ssh" {
   display_name = "consumes.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -79,7 +76,7 @@ resource "nsxt_policy_group" "provides-all-https" {
   display_name = "provides.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -89,7 +86,7 @@ resource "nsxt_policy_group" "consumes-all-https" {
   display_name = "consumes.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.lb.path, var.groups.vra.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -99,7 +96,7 @@ resource "nsxt_policy_group" "provides-lb-https" {
   display_name = "provides.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.lb.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -109,7 +106,7 @@ resource "nsxt_policy_group" "consumes-lb-https" {
   display_name = "consumes.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -119,7 +116,7 @@ resource "nsxt_policy_group" "provides-all-icc" {
   display_name = "provides.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path, var.groups.calico.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -129,7 +126,7 @@ resource "nsxt_policy_group" "consumes-all-icc" {
   display_name = "consumes.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path, var.groups.calico.path]
+      member_paths = [ for p in var.provider_groups.provides_all_https: p.path]
     }
   }
 }
@@ -158,27 +155,27 @@ resource "nsxt_policy_security_policy" "vra" {
     source_groups      = [nsxt_policy_group.consumes-all-ssh.path]
     destination_groups = [nsxt_policy_group.provides-all-ssh.path]
     action             = "ALLOW"
-    services         = [data.nsxt_policy_service.service["ssh"]]
+    services         = [data.nsxt_policy_service.service["SSH"].path]
 
   }
 
   rule {
     display_name       = "vRA: https to appliances"
 
-    source_groups      = [nsxt_policy_group.consumes-all-ssh.path]
-    destination_groups = [nsxt_policy_group.provides-all-ssh.path]
+    source_groups      = [nsxt_policy_group.consumes-all-https.path]
+    destination_groups = [nsxt_policy_group.provides-all-https.path]
     action             = "ALLOW"
-    services         = [data.nsxt_policy_service.service["https"]]
+    services         = [data.nsxt_policy_service.service["HTTPS"].path]
 
   }
 
     rule {
     display_name       = "vRA: https to loadbalancer"
 
-    source_groups      = [nsxt_policy_group.consumes-all-ssh.path]
-    destination_groups = [nsxt_policy_group.provides-all-ssh.path]
+    source_groups      = [nsxt_policy_group.consumes-lb-https.path]
+    destination_groups = [nsxt_policy_group.provides-lb-https.path]
     action             = "ALLOW"
-    services         = [data.nsxt_policy_service.service["https"]]
+    services         = [data.nsxt_policy_service.service["HTTPS"].path]
 
   }
 
