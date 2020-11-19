@@ -1,7 +1,7 @@
 locals {
   services = [
-      "https", 
-      "ssh"
+      "HTTPS", 
+      "SSH"
     ]
 
   }
