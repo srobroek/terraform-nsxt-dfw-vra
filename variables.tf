@@ -5,9 +5,10 @@ variable environment {
   type = string
 }
 variable provider_groups {
-  type = list(object({
-  provides_all_https_all = list(string)
-  provides_all_ssh = list(string)
-  provides_lb_https = list(string)
-  }))
+  type = object({
+    provides_all_https = object()
+    provides_all_ssh = object()
+    provides_lb_https = object()
+  })
+
 }
