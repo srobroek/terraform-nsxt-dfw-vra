@@ -6,6 +6,6 @@ variable environment {
 }
 variable provider_groups {
 
-  })
+
 
 }
