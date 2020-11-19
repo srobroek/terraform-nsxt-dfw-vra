@@ -56,7 +56,7 @@ resource "nsxt_policy_group" "provides-all-ssh" {
   display_name = "provides.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groups.vra.path]
+      member_paths = [for key, value in var.provider_groups.consumes_all_ssh: value.path]
     }
   }
 }
@@ -66,7 +66,7 @@ resource "nsxt_policy_group" "consumes-all-ssh" {
   display_name = "consumes.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [ for key, value in var.provider_groups.provides_all_ssh: value.path ]
+      member_paths = [ for key, value in var.provider_groups.consumes_all_ssh: value.path ]
       # for key, value in var.lb_groups: (data.nsxt_policy_group.lb_groups[key]).path
       #for p in var.provider_groups.provides_all_https: p.path
     }
