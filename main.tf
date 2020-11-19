@@ -89,7 +89,7 @@ resource "nsxt_policy_group" "consumes-all-https" {
   display_name = "consumes.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groupslb.path, var.groups.vra.path]
+      member_paths = [var.groups.lb.path, var.groups.vra.path]
     }
   }
 }
@@ -99,7 +99,7 @@ resource "nsxt_policy_group" "provides-lb-https" {
   display_name = "provides.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
-      member_paths = [var.groupslb.path]
+      member_paths = [var.groups.lb.path]
     }
   }
 }
