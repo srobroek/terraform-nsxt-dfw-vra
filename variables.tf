@@ -4,7 +4,7 @@ variable product {
 variable environment {
   type = string
 }
-variable provider_groups {
+variable groups {
 
 
 
