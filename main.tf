@@ -56,7 +56,7 @@ data "nsxt_policy_service" "services" {
 
 resource "nsxt_policy_group" "provides-all-ssh" {
 
-  display_name = "provides.ssh.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "provides.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path]
@@ -66,7 +66,7 @@ resource "nsxt_policy_group" "provides-all-ssh" {
 
 resource "nsxt_policy_group" "consumes-all-ssh" {
 
-  display_name = "consumes.ssh.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "consumes.ssh.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path]
@@ -76,7 +76,7 @@ resource "nsxt_policy_group" "consumes-all-ssh" {
 
 resource "nsxt_policy_group" "provides-all-https" {
 
-  display_name = "provides.https.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "provides.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path]
@@ -86,7 +86,7 @@ resource "nsxt_policy_group" "provides-all-https" {
 
 resource "nsxt_policy_group" "consumes-all-https" {
 
-  display_name = "consumes.https.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "consumes.https.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groupslb.path, var.groups.vra.path]
@@ -96,7 +96,7 @@ resource "nsxt_policy_group" "consumes-all-https" {
 
 resource "nsxt_policy_group" "provides-lb-https" {
 
-  display_name = "provides.https.lb.${var.product.product_name}.${var.product.environment}"
+  display_name = "provides.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groupslb.path]
@@ -106,7 +106,7 @@ resource "nsxt_policy_group" "provides-lb-https" {
 
 resource "nsxt_policy_group" "consumes-lb-https" {
 
-  display_name = "consumes.https.lb.${var.product.product_name}.${var.product.environment}"
+  display_name = "consumes.https.lb.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path]
@@ -116,7 +116,7 @@ resource "nsxt_policy_group" "consumes-lb-https" {
 
 resource "nsxt_policy_group" "provides-all-icc" {
 
-  display_name = "provides.icc.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "provides.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path, var.groups.calico.path]
@@ -126,7 +126,7 @@ resource "nsxt_policy_group" "provides-all-icc" {
 
 resource "nsxt_policy_group" "consumes-all-icc" {
 
-  display_name = "consumes.icc.all.${var.product.product_name}.${var.product.environment}"
+  display_name = "consumes.icc.all.${var.product}.${var.environment}"
   criteria {
     path_expression {
       member_paths = [var.groups.vra.path, var.groups.calico.path]
